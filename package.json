@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@dfns/ethersjs-wallet": "^0.1.0-alpha.8",
+    "@dfns/sdk": "^0.1.0-alpha.8",
+    "@dfns/sdk-keysigner": "^0.1.0-alpha.8",
     "csv-writer": "^1.6.0",
     "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
