@@ -21,7 +21,7 @@ const initDfnsClient = () => {
 
 async function main() {
   const web3 = new Web3();
-  const abi = [{
+  const abi = {
     'constant': false,
     'inputs': [
       {
@@ -59,10 +59,10 @@ async function main() {
     'payable': false,
     'stateMutability': 'nonpayable',
     'type': 'function'
-  }];
+  };
 
   const parameters = {
-    'recipient': '0x64b6d0df31a5435fca0f00cf210e909b2d91c603',
+    'recipient': '0xa0a30c8bcceed4e9781f9fb1363a620e92807fa0',
     'numGenerations': '10',
     'rewardRatio': '500000000000000000',
     'ORatio': '400000000000000000',
@@ -70,21 +70,18 @@ async function main() {
     'tokenURI': 'https://ipfs.io/ipfs/QmWbhsKD9UzU9vmB9yPuQj2x3Dut25GoQbqMiDf7Zs9NL5?filename=test_3.txt'
   };
 
-  const encodedFunctionCall = web3.eth.abi.encodeFunctionCall(abi[0], Object.values(parameters));
+  const encodedFunctionCall = web3.eth.abi.encodeFunctionCall(abi, Object.values(parameters));
   const dfnsClient = initDfnsClient();
-  const tx = await dfnsClient.wallets.getWalletHistory({
-    walletId: process.env.DNFS_WALLET_ID,
-  })
-  console.log(tx);
-  const tx2 = await dfnsClient.wallets.broadcastTransaction({
-    walletId: process.env.DNFS_WALLET_ID,
-    body: {
-      to: "0xE9a66f7c67878cFC79453F4E65b39e98De934D5a",
-      kind: "Evm",
-      data: encodedFunctionCall,
-    }
-  })
-  console.log(tx2);
+  for (let i = 0; i < 4; i++) {
+    await dfnsClient.wallets.broadcastTransaction({
+      walletId: process.env.DNFS_WALLET_ID,
+      body: {
+        to: "0xE9a66f7c67878cFC79453F4E65b39e98De934D5a",
+        kind: "Evm",
+        data: encodedFunctionCall,
+      }
+    })
+  };
 }
 
 main();
