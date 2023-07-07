@@ -52,7 +52,6 @@ async function main() {
   fs.createReadStream('jbas-holders.csv')
     .pipe(csv())
     .on('data', async (row) => {
-      console.log(row.address)
       const parameters = {
         'from': '0xa0a30c8bcceed4e9781f9fb1363a620e92807fa0',
         'to': row.address,
