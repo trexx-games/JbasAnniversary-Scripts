@@ -60,27 +60,29 @@ async function main() {
     'stateMutability': 'nonpayable',
     'type': 'function'
   };
-
+  //name: JBAS Merch Temple (JBAST)
   const parameters = {
     'recipient': '0xa0a30c8bcceed4e9781f9fb1363a620e92807fa0',
     'numGenerations': '10',
-    'rewardRatio': '500000000000000000',
-    'ORatio': '400000000000000000',
+    'rewardRatio': '350000000000000000',
+    'ORatio': '300000000000000000',
     'license': '5',
     'tokenURI': 'https://ipfs.io/ipfs/QmWbhsKD9UzU9vmB9yPuQj2x3Dut25GoQbqMiDf7Zs9NL5?filename=test_3.txt'
   };
 
   const encodedFunctionCall = web3.eth.abi.encodeFunctionCall(abi, Object.values(parameters));
   const dfnsClient = initDfnsClient();
-  for (let i = 0; i < 4; i++) {
-    await dfnsClient.wallets.broadcastTransaction({
+  for (let i = 1; i < 4; i++) {
+    const tx = await dfnsClient.wallets.broadcastTransaction({
       walletId: process.env.DNFS_WALLET_ID,
       body: {
         to: "0xE9a66f7c67878cFC79453F4E65b39e98De934D5a",
         kind: "Evm",
         data: encodedFunctionCall,
+        nonce: i
       }
     })
+    console.log(tx);
   };
 }
 

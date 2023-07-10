@@ -47,29 +47,40 @@ async function main() {
   };
 
   const dfnsClient = initDfnsClient();
-  let tokenId = 51;
+  let tokenId;
+  let nonce = 1;
+  const rows = [];
 
   fs.createReadStream('jbas-holders.csv')
     .pipe(csv())
     .on('data', async (row) => {
-      const parameters = {
-        'from': '0xa0a30c8bcceed4e9781f9fb1363a620e92807fa0',
-        'to': row.address,
-        'tokenId': tokenId.toString()
-      };
+      await rows.push(row.address);
+    })
+    .on('end', async () => {
+      for (const row of rows) {
+        const parameters = {
+          'from': '0xa0a30c8bcceed4e9781f9fb1363a620e92807fa0',
+          'to': row,
+          'tokenId': tokenId.toString()
+        };
 
-      const encodedFunctionCall = web3.eth.abi.encodeFunctionCall(abi, Object.values(parameters));
+        const encodedFunctionCall = web3.eth.abi.encodeFunctionCall(abi, Object.values(parameters));
 
-      await dfnsClient.wallets.broadcastTransaction({
-        walletId: process.env.DNFS_WALLET_ID,
-        body: {
-          to: "0xE9a66f7c67878cFC79453F4E65b39e98De934D5a",
-          kind: "Evm",
-          data: encodedFunctionCall,
-        }
-      });
+        const tx = await dfnsClient.wallets.broadcastTransaction({
+          walletId: process.env.DNFS_WALLET_ID,
+          body: {
+            to: "0xE9a66f7c67878cFC79453F4E65b39e98De934D5a",
+            kind: "Evm",
+            data: encodedFunctionCall,
+            nonce,
+          }
+        });
 
-      tokenId++;
+        console.log(tx);
+
+        tokenId++;
+        nonce++;
+      }
     });
 }
 
