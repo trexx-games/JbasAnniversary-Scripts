@@ -1,54 +1,18 @@
 const fs = require('fs');
 const csv = require('csv-parser');
-const { Web3 } = require('web3');
-const { DfnsApiClient } = require('@dfns/sdk');
-const { AsymmetricKeySigner } = require('@dfns/sdk-keysigner');
 
 const dotenv = require('dotenv');
 dotenv.config();
-
-const initDfnsClient = () => {
-  const signer = new AsymmetricKeySigner({
-    credId: process.env.DFNS_CRED_ID,
-    privateKey: process.env.DFNS_PRIVATE_KEY,
-    appOrigin: process.env.DFNS_APP_ORIGIN,
-  })
-  return new DfnsApiClient({
-    baseUrl: process.env.DFNS_BASE_URL,
-    appId: process.env.DFNS_APP_ID,
-    authToken: process.env.DFNS_AUTH_TOKEN,
-    signer,
-  })
-}
+const contractAddress = '0xE9a66f7c67878cFC79453F4E65b39e98De934D5a';
+const contractABI = [
+  'function safeTransferFrom(address from, address to, uint256 tokenId) public payable'
+];
 
 async function main() {
-  const web3 = new Web3();
-  const abi = {
-    'constant': false,
-    'inputs': [
-      {
-        'name': 'from',
-        'type': 'address'
-      },
-      {
-        'name': 'to',
-        'type': 'address'
-      },
-      {
-        'name': 'tokenId',
-        'type': 'uint256'
-      }
-    ],
-    'name': 'safeTransferFrom',
-    'outputs': [],
-    'payable': true,
-    'stateMutability': 'payable',
-    'type': 'function'
-  };
+  const [signer] = await ethers.getSigners();
+  const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-  const dfnsClient = initDfnsClient();
-  let tokenId;
-  let nonce = 1;
+  let tokenId = 90;
   const rows = [];
 
   fs.createReadStream('jbas-holders.csv')
@@ -58,28 +22,9 @@ async function main() {
     })
     .on('end', async () => {
       for (const row of rows) {
-        const parameters = {
-          'from': '0xa0a30c8bcceed4e9781f9fb1363a620e92807fa0',
-          'to': row,
-          'tokenId': tokenId.toString()
-        };
-
-        const encodedFunctionCall = web3.eth.abi.encodeFunctionCall(abi, Object.values(parameters));
-
-        const tx = await dfnsClient.wallets.broadcastTransaction({
-          walletId: process.env.DNFS_WALLET_ID,
-          body: {
-            to: "0xE9a66f7c67878cFC79453F4E65b39e98De934D5a",
-            kind: "Evm",
-            data: encodedFunctionCall,
-            nonce,
-          }
-        });
-
+        const tx = await contract.safeTransferFrom(process.env.WALLET_ADDRESS, row, tokenId);
         console.log(tx);
-
         tokenId++;
-        nonce++;
       }
     });
 }
