@@ -1,0 +1,23 @@
+{
+  "blockchain": "Mumbai",
+  "department": "Artwork",
+  "description": "Metadata for Test",
+  "externalUrl": null,
+  "image": "ipfs://QmeknvK4fLUsg2WKBN8bd2FS8shmsA4o8bz9qj7Ndp2xG5",
+  "license": "CBE-PR-HS",
+  "media": {
+    "cid": "QmeknvK4fLUsg2WKBN8bd2FS8shmsA4o8bz9qj7Ndp2xG5",
+    "dimensions": "203x116",
+    "duration": 0,
+    "mimeType": "video/mp4",
+    "size": 2699,
+    "url": "https://ipfs.io/ipfs/QmeknvK4fLUsg2WKBN8bd2FS8shmsA4o8bz9qj7Ndp2xG5"
+  },
+  "name": "Testnet New Script Drop",
+  "numberOfGenerations": 10,
+  "originator": "0x64B6D0Df31a5435fca0F00cf210E909b2d91c603",
+  "originatorRewardRatio": 40,
+  "sensitiveContent": false,
+  "timestamp": 1688079838826,
+  "totalRewardRatio": 50
+}
