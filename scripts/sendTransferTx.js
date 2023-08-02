@@ -1,5 +1,6 @@
 const fs = require('fs');
 const csv = require('csv-parser');
+const { LedgerSigner } = require('@ethersproject/hardware-wallets');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -9,7 +10,11 @@ const contractABI = [
 ];
 
 async function main() {
-  const [signer] = await ethers.getSigners();
+  const provider = new ethers.getDefaultProvider("https://polygon-mumbai.g.alchemy.com/v2/vz4Pf5QO75vldhGyzQMZDJ8fORQOnEVI", {
+    alchemy: process.env.ALCHEMY_SDK_API_KEY
+   });
+   const signer = new LedgerSigner(provider);
+  // const [signer] = await ethers.getSigners();
   const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
   let tokenId = 90;
