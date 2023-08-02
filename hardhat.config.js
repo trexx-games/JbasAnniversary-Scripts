@@ -18,7 +18,7 @@ module.exports = {
     },
     hardhat: {
       ledgerAccounts: [
-        "0xa809931e3b38059adae9bc5455bc567d0509ab92"
+        "0xAfFf614668b08Bf97c10817a74fBdF8B7d958Df1"
       ],
     },
   }
