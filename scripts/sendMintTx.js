@@ -3,15 +3,15 @@ const { LedgerSigner } = require('@ethersproject/hardware-wallets');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const contractAddress = "0xE9a66f7c67878cFC79453F4E65b39e98De934D5a";
+const contractAddress = "0x33CE2cD509330586aD747D536a0D59A302c3053d";
 const contractABI = [
   'function mint(address recipient, uint8 numGenerations, uint256 rewardRatio, uint256 ORatio, uint8 license, string tokenURI) public returns (uint256 tokenId)'
 ];
 
 async function main() {
   try {
-    const provider = new ethers.getDefaultProvider("https://polygon-mumbai.g.alchemy.com/v2/vz4Pf5QO75vldhGyzQMZDJ8fORQOnEVI", {
-     alchemy: process.env.ALCHEMY_SDK_API_KEY
+    const provider = new ethers.getDefaultProvider("https://polygon-mainnet.g.alchemy.com/v2/dZzRIftzJwktqBcM8DbaLyxoEpCnIMBN", {
+     alchemy: 'dZzRIftzJwktqBcM8DbaLyxoEpCnIMBN'
     });
     const signer = new LedgerSigner(provider);
     // const [signer] = await ethers.getSigners();
