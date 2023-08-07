@@ -1,5 +1,7 @@
 const { ethers } = require('hardhat');
-const { LedgerSigner } = require('@ethersproject/hardware-wallets');
+// const { LedgerSigner } = require('@anders-t/ethers-ledger');	
+const { LedgerSigner } = require('@ethers-ext/signer-ledger');
+const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -10,10 +12,9 @@ const contractABI = [
 
 async function main() {
   try {
-    const provider = new ethers.getDefaultProvider("https://polygon-mainnet.g.alchemy.com/v2/dZzRIftzJwktqBcM8DbaLyxoEpCnIMBN", {
-     alchemy: 'dZzRIftzJwktqBcM8DbaLyxoEpCnIMBN'
-    });
-    const signer = new LedgerSigner(provider);
+    const transport = await TransportNodeHid.open("");
+    const provider = new ethers.providers.JsonRpcProvider("https://polygon-mainnet.g.alchemy.com/v2/dZzRIftzJwktqBcM8DbaLyxoEpCnIMBN", 137);
+    const signer = new LedgerSigner(transport, provider);
     // const [signer] = await ethers.getSigners();
     const contract = new ethers.Contract(contractAddress, contractABI, signer);
     const parameters = {
