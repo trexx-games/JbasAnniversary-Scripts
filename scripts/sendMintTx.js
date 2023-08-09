@@ -1,7 +1,5 @@
 const { ethers } = require('hardhat');
-// const { LedgerSigner } = require('@anders-t/ethers-ledger');	
-const { LedgerSigner } = require('@ethers-ext/signer-ledger');
-const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
+const { LedgerSigner } = require('@anders-t/ethers-ledger');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -13,21 +11,19 @@ const contractABI = [
 async function main() {
   try {
     const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_API_URL, Number(process.env.POLYGON_CHAIN_ID));
-    const transport = await TransportNodeHid.open();
-    const ledgerSigner  = new LedgerSigner(transport);
-    const signer = ledgerSigner.connect(provider);
-
-    // const [signer] = await ethers.getSigners();
+    const signer  = new LedgerSigner(provider);
     const contract = new ethers.Contract(contractAddress, contractABI, signer);
     const parameters = {
-      'recipient': "0x64B6D0Df31a5435fca0F00cf210E909b2d91c603",
+      'recipient': "0xAfFf614668b08Bf97c10817a74fBdF8B7d958Df1",
       'numGenerations': '10',
       'rewardRatio': '350000000000000000',
       'ORatio': '300000000000000000',
       'license': '5',
-      'tokenURI': 'ipfs://QmPaXY75MvYizibTnAuZ3ZFRBAKBVHkZXSc3ZKttVziKw6'
+      'tokenURI': 'ipfs://'
     };
-    const tx = await contract.mint(...Object.values(parameters));
+    //todo: get the gas price from 
+    const overrides = { maxPriorityFeePerGas: ethers.utils.parseUnits('65', 'gwei'), maxFeePerGas: ethers.utils.parseUnits('175', 'gwei')};
+    const tx = await contract.mint(...Object.values(parameters), overrides);
     console.log(tx);
   } catch (error) {
     console.error('An error occurred:', error);
