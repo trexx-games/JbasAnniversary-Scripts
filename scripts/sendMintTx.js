@@ -21,8 +21,11 @@ async function main() {
       'license': '5',
       'tokenURI': 'ipfs://'
     };
-    //todo: get the gas price from 
-    const overrides = { maxPriorityFeePerGas: ethers.utils.parseUnits('65', 'gwei'), maxFeePerGas: ethers.utils.parseUnits('175', 'gwei')};
+
+    const gasEstimate = await fetch('https://gasstation.polygon.technology/v2');
+    const gasEstimateJson = await gasEstimate.json();
+    const overrides = { maxPriorityFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.fast.maxPriorityFee), 'gwei'), maxFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.fast.maxFee), 'gwei')};
+    console.log(overrides);
     const tx = await contract.mint(...Object.values(parameters), overrides);
     console.log(tx);
   } catch (error) {
