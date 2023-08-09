@@ -13,7 +13,7 @@ const contractABI = [
 async function main() {
   try {
     const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_API_URL, Number(process.env.POLYGON_CHAIN_ID));
-    const transport = await TransportNodeHid.open("");
+    const transport = await TransportNodeHid.open();
     const ledgerSigner  = new LedgerSigner(transport);
     const signer = ledgerSigner.connect(provider);
 
