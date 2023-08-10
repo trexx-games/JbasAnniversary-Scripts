@@ -26,7 +26,7 @@ async function main() {
     .on('end', async () => {
       for (const row of rows) {
         const tx = await contract.safeTransferFrom(process.env.JBAS_WALLET_ADDRESS, row, tokenId);
-        fs.appendFileSync('transfer_transactions_hash.csv', `${tx.hash}\n`);
+        fs.appendFileSync('./logs/transfer_transactions_hash.csv', `${tx.hash}\n`);
         console.log(`NFT #${tokenId} SENT: ${tx.hash}`);
         tokenId++;
       }
