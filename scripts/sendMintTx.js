@@ -28,7 +28,7 @@ async function main() {
       const gasEstimate = await fetch('https://gasstation.polygon.technology/v2');
       const gasEstimateJson = await gasEstimate.json();
       const overrides = { maxPriorityFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.standard.maxPriorityFee), 'gwei'), maxFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.standard.maxFee), 'gwei')};
-      const tx = await contract.mint(...Object.values(parameters));
+      const tx = await contract.mint(...Object.values(parameters), overrides);
   
       fs.appendFileSync('./logs/mint_transactions_hash.csv', `${tx.hash}\n`);
       console.log(`Minted NFT #${i + 1}: ${tx.hash}`);
