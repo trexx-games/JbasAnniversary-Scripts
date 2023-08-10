@@ -13,15 +13,13 @@ module.exports = {
   },
   networks: {
     mumbai: {
-      url: "https://polygon-mumbai.g.alchemy.com/v2/vz4Pf5QO75vldhGyzQMZDJ8fORQOnEVI",
+      url: `${process.env.ALCHEMY_API_URL}`,
       accounts: [`0x${process.env.PRIVATE_KEY}`]
     },
     hardhat: {
       ledgerAccounts: [
-        "0xF1f3E8aaB895BdA8479e61467408f5Bb8259E26D"
+        `${process.env.JBAS_WALLET_ADDRESS}`
       ],
     },
   }
 };
-
-// 0xAfFf614668b08Bf97c10817a74fBdF8B7d958Df1 

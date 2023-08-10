@@ -1,33 +1,38 @@
 const { ethers } = require('hardhat');
 const { LedgerSigner } = require('@anders-t/ethers-ledger');
+const { mintFunctionAbi } = require('./abi');
 const dotenv = require('dotenv');
+const fs = require('fs');
 dotenv.config();
 
-const contractAddress = "0x33CE2cD509330586aD747D536a0D59A302c3053d";
-const contractABI = [
-  'function mint(address recipient, uint8 numGenerations, uint256 rewardRatio, uint256 ORatio, uint8 license, string tokenURI) public returns (uint256 tokenId)'
-];
+const contractAddress = process.env.UNTRADING_CONTRACT_ADDRESS;
 
 async function main() {
   try {
+    console.log('...NFT MINTING STARTED...')
     const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_API_URL, Number(process.env.POLYGON_CHAIN_ID));
-    const signer  = new LedgerSigner(provider);
-    const contract = new ethers.Contract(contractAddress, contractABI, signer);
+    // const signer  = new LedgerSigner(provider);
+    const [signer] = await ethers.getSigners();
+
+    const contract = new ethers.Contract(contractAddress, mintFunctionAbi, signer);
     const parameters = {
-      'recipient': "0xAfFf614668b08Bf97c10817a74fBdF8B7d958Df1",
+      'recipient': process.env.WALLET_ADDRESS,
       'numGenerations': '10',
       'rewardRatio': '350000000000000000',
       'ORatio': '300000000000000000',
-      'license': '5',
-      'tokenURI': 'ipfs://'
+      'license': '2',
+      'tokenURI': 'ipfs://bafybeieip57f53756adpylxvbgoxwhorpmy75kplkqukcgf656j4ahcajm'
     };
-
-    const gasEstimate = await fetch('https://gasstation.polygon.technology/v2');
-    const gasEstimateJson = await gasEstimate.json();
-    const overrides = { maxPriorityFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.fast.maxPriorityFee), 'gwei'), maxFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.fast.maxFee), 'gwei')};
-    console.log(overrides);
-    const tx = await contract.mint(...Object.values(parameters), overrides);
-    console.log(tx);
+    const totalNFTsToMint = Number(process.env.AMOUNT_OF_NFTS_TO_MINT);
+    for (let i = 0; i < totalNFTsToMint; i++) {
+      const gasEstimate = await fetch('https://gasstation.polygon.technology/v2');
+      const gasEstimateJson = await gasEstimate.json();
+      const overrides = { maxPriorityFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.standard.maxPriorityFee), 'gwei'), maxFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.standard.maxFee), 'gwei')};
+      const tx = await contract.mint(...Object.values(parameters), overrides);
+  
+      fs.appendFileSync('mint_transactions_hash.csv', `${tx.hash}\n`);
+      console.log(`Minted NFT #${i + 1}: ${tx.hash}`);
+    }
   } catch (error) {
     console.error('An error occurred:', error);
   }

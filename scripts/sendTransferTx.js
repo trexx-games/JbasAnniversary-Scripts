@@ -1,23 +1,21 @@
 const fs = require('fs');
 const csv = require('csv-parser');
-const { LedgerSigner } = require('@ethersproject/hardware-wallets');
-
+const { LedgerSigner } = require('@anders-t/ethers-ledger');
+const { transferFunctionAbi } = require('./abi');
 const dotenv = require('dotenv');
 dotenv.config();
-const contractAddress = '0xE9a66f7c67878cFC79453F4E65b39e98De934D5a';
-const contractABI = [
-  'function safeTransferFrom(address from, address to, uint256 tokenId) public payable'
-];
+const contractAddress = process.env.UNTRADING_CONTRACT_ADDRESS;
+
 
 async function main() {
-  const provider = new ethers.getDefaultProvider("https://polygon-mumbai.g.alchemy.com/v2/vz4Pf5QO75vldhGyzQMZDJ8fORQOnEVI", {
-    alchemy: process.env.ALCHEMY_SDK_API_KEY
-   });
-   const signer = new LedgerSigner(provider);
-  // const [signer] = await ethers.getSigners();
-  const contract = new ethers.Contract(contractAddress, contractABI, signer);
+    console.log('...AIR DROP STARTED...')
+
+  const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_API_URL, Number(process.env.POLYGON_CHAIN_ID));
+  const signer  = new LedgerSigner(provider);
+  const contract = new ethers.Contract(contractAddress, transferFunctionAbi, signer);
 
   let tokenId = 90;
+  //getAllTokensNumbersofSome Wallet
   const rows = [];
 
   fs.createReadStream('jbas-holders.csv')
@@ -27,8 +25,9 @@ async function main() {
     })
     .on('end', async () => {
       for (const row of rows) {
-        const tx = await contract.safeTransferFrom(process.env.WALLET_ADDRESS, row, tokenId);
-        console.log(tx);
+        const tx = await contract.safeTransferFrom(process.env.JBAS_WALLET_ADDRESS, row, tokenId);
+        fs.appendFileSync('transfer_transactions_hash.csv', `${tx.hash}\n`);
+        console.log(`NFT #${tokenId} SENT: ${tx.hash}`);
         tokenId++;
       }
     });

@@ -1,23 +1,23 @@
 {
-  "blockchain": "Mumbai",
-  "department": "Artwork",
-  "description": "Metadata for Test",
-  "externalUrl": null,
-  "image": "ipfs://QmeknvK4fLUsg2WKBN8bd2FS8shmsA4o8bz9qj7Ndp2xG5",
-  "license": "CBE-PR-HS",
+  "blockchain": "",
+  "department": "Collectible",
+  "description": "Merch Temple",
+  "externalUrl": "https://www.japanesebornapesociety.com/",
+  "image": "ipfs://bafybeieip57f53756adpylxvbgoxwhorpmy75kplkqukcgf656j4ahcajm",
+  "license": "CBE-NECR",
   "media": {
-    "cid": "QmeknvK4fLUsg2WKBN8bd2FS8shmsA4o8bz9qj7Ndp2xG5",
-    "dimensions": "203x116",
-    "duration": 0,
-    "mimeType": "video/mp4",
-    "size": 2699,
-    "url": "https://ipfs.io/ipfs/QmeknvK4fLUsg2WKBN8bd2FS8shmsA4o8bz9qj7Ndp2xG5"
+    "cid": "bafybeieip57f53756adpylxvbgoxwhorpmy75kplkqukcgf656j4ahcajm",
+    "dimensions": "1080x1080",
+		"duration": 5000,
+		"mimeType":"video/mp4",
+		"size": 31040256,
+		"url":"https://ipfs.io/ipfs/bafybeieip57f53756adpylxvbgoxwhorpmy75kplkqukcgf656j4ahcajm"
   },
-  "name": "Testnet New Script Drop",
+  "name": "JBAS Merch Temple (JBAST)",
   "numberOfGenerations": 10,
-  "originator": "0x64B6D0Df31a5435fca0F00cf210E909b2d91c603",
-  "originatorRewardRatio": 40,
+  "originator": "0xAfFf614668b08Bf97c10817a74fBdF8B7d958Df1",
+  "originatorRewardRatio": 30,
   "sensitiveContent": false,
-  "timestamp": 1688079838826,
-  "totalRewardRatio": 50
+  "timestamp": 1691685484653,
+  "totalRewardRatio": 35
 }
