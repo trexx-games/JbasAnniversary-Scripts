@@ -12,14 +12,13 @@
   "dependencies": {
     "@anders-t/ethers-ledger": "^1.0.4",
     "@ethers-ext/signer-ledger": "^6.0.0-beta.1",
-    "@ethersproject/hardware-wallets": "^5.7.0",
-    "@ledgerhq/hw-transport-node-hid": "^6.27.20",
+    "@fast-csv/parse": "^4.3.6",
     "csv-parser": "^3.0.0",
     "csv-writer": "^1.6.0",
     "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
     "hardhat": "^2.14.0",
-    "web3": "^4.0.2"
+    "nft.storage": "^7.1.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ledger": "^1.0.1",

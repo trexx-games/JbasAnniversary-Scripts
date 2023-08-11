@@ -1,5 +1,5 @@
 {
-  "blockchain": "",
+  "blockchain": "Polygon",
   "department": "Collectible",
   "description": "Merch Temple",
   "externalUrl": "https://www.japanesebornapesociety.com/",
@@ -18,6 +18,6 @@
   "originator": "0xAfFf614668b08Bf97c10817a74fBdF8B7d958Df1",
   "originatorRewardRatio": 30,
   "sensitiveContent": false,
-  "timestamp": 1691685484653,
+  "timestamp": 0,
   "totalRewardRatio": 35
 }
