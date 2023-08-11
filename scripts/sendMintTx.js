@@ -33,8 +33,8 @@ const init = async () => {
   const contractAddress = process.env.UNTRADING_CONTRACT_ADDRESS;
   const abi = require('../contracts/unFacetABI.json');
   const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY_API_URL, Number(process.env.POLYGON_CHAIN_ID));
-  // const signer = new LedgerSigner(provider);
-  const [signer] = await ethers.getSigners();
+  const signer = new LedgerSigner(provider);
+  // const [signer] = await ethers.getSigners();
   Contract = new ethers.Contract(contractAddress, abi, signer);
 }
 
