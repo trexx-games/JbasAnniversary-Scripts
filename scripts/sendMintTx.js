@@ -88,8 +88,8 @@ async function mint() {
           maxPriorityFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.standard.maxPriorityFee), 'gwei'), 
           maxFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.standard.maxFee), 'gwei')
         };
-        // const tx = await Contract.mint(...Object.values(parameters), tokenURI, overrides);
-        const tx = await Contract.mint(...Object.values(parameters), tokenURI);
+        const tx = await Contract.mint(...Object.values(parameters), tokenURI, overrides);
+        // const tx = await Contract.mint(...Object.values(parameters), tokenURI);
         const receipt = await tx.wait()
         console.log(receipt.logs)
         let tokenID = parseInt(BigInt(receipt.logs[0].topics[1]).toString());

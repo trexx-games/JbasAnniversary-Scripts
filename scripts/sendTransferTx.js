@@ -51,8 +51,8 @@ const airDrop = async () => {
           maxPriorityFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.fast.maxPriorityFee), 'gwei'),
           maxFeePerGas: ethers.utils.parseUnits(String(gasEstimateJson.fast.maxFee), 'gwei')
       };
-      const tx = await Contract.transferFrom(process.env.JBAS_WALLET_ADDRESS, recipient, tokenId);
-      // const tx = await Contract.transferFrom(process.env.JBAS_WALLET_ADDRESS, recipient, tokenId, overrides);
+      // const tx = await Contract.transferFrom(process.env.JBAS_WALLET_ADDRESS, recipient, tokenId);
+      const tx = await Contract.transferFrom(process.env.JBAS_WALLET_ADDRESS, recipient, tokenId, overrides);
       console.log(`Transfer ${tokenId} succeed #`);
       writeStream.write([recipient, tokenId, tx.hash].join(',') + '\n');
       console.log('------------------------');
