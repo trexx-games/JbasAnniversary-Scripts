@@ -12,10 +12,10 @@ module.exports = {
     ]
   },
   networks: {
-    mumbai: {
-      url: `${process.env.ALCHEMY_API_URL}`,
-      accounts: [`0x${process.env.PRIVATE_KEY}`]
-    },
+    // mumbai: {
+    //   url: `${process.env.ALCHEMY_API_URL}`,
+    //   accounts: [`0x${process.env.PRIVATE_KEY}`]
+    // },
     hardhat: {
       ledgerAccounts: [
         `${process.env.JBAS_WALLET_ADDRESS}`
