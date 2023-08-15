@@ -5,9 +5,10 @@ const path = require('path');
 let holdersAddressData = [];
 let startingTokenId = 1587;
 const startingAddress = '0xfD041bcFe1dAc7955f1053BEEDE963C4Bee04227';
+let foundStartingAddress = false;
+
 const mintTransactionsPath = path.join(__dirname, '/../logs/mint_transactions.csv');
 const holdersPath = path.join(__dirname, '/../data/jbas-holders.csv');
-
 async function readHoldersFile() {
   return new Promise((resolve, reject) => {
       fs.createReadStream(holdersPath)
